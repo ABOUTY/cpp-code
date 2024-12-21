@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)https://course.cse.ust.hk/comp2011/assigns/pa2/web/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>COMP2011 PA2</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="./COMP2011 PA2_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./COMP2011 PA2_files/simple-sidebar.css">
+
+    <!-- Prism -->
+    <link rel="stylesheet" href="./COMP2011 PA2_files/prism.css">
+
+    <!-- Style for code input (for sample input/output)-->
+    <style>
+        .input {
+            color: #009900;
+        }
+    </style>
+
+    <!-- Initialization for this lab template -->
+    <script>
+
+        // ==========================================================
+        // Note for the lab designer: 
+        //
+        // Please change the following values
+        // 
+        // ===========================================================
+
+        const title = "COMP2011 PA2";
+        const ta_name = "BAI, Sikai";
+        const ta_email = "sbaiae@connect.ust.hk";
+        const lab_submission_filename = "pa2.cpp";
+        const command_compile_source = "g++ -std=c++11 -Wall pa2.cpp -o pa2";
+        const command_run_mac_linux = "./pa2 < testcase/input1.txt > myOutput2.txt";
+        const command_run_win = "Get-Content testcase/input2.txt | ./pa2 > myOutput1.txt";
+        const submission_deadline = "10-November-2024 23:59";
+        const wrong_filenames = "(e.g., PA2.cpp, Pa2.cpp, pa2.cpp.cpp, pa 2.cpp (a space is added between pa and 1) etc. )";
+
+
+
+        document.addEventListener("DOMContentLoaded", (event) => {
+
+            // logics to update the lab content when the DOM is ready
+
+            document.title = title;
+            document.getElementById("sidebar-heading").innerText = title;
+            document.getElementById("page-title").innerText = title;
+            document.getElementById("ta_name").innerText = ta_name;
+            document.getElementById("ta_email").innerText = ta_email;
+            document.getElementById("command_compile_source").innerText = command_compile_source;
+            document.getElementById("command_run_mac_linux").innerText = command_run_mac_linux;
+            document.getElementById("command_run_win").innerText = command_run_win;
+            document.getElementById("submission_deadline").innerText = submission_deadline;
+            document.getElementById("wrong_filenames").innerText = wrong_filenames;
+
+
+            for (const c of document.getElementsByClassName("lab_submission_filename")) {
+                if (c) c.innerText = lab_submission_filename;
+            }
+
+
+        });
+
+    </script>
+
+</head>
+
+<body class="language-none">
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="sticky-top">
+                <div class="sidebar-heading" id="sidebar-heading">COMP2011 PA2</div>
+                <div class="list-group list-group-flush">
+
+                    <a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/index.html#section-introduction" class="list-group-item list-group-item-action bg-light">Introduction</a>
+                    <a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/index.html#section-skeleton-code" class="list-group-item list-group-item-action bg-light">Skeleton
+                        Code</a>
+
+
+                    <a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/index.html#section-complete-example" class="list-group-item list-group-item-action bg-light">A Complete 
+                        Example</a>
+
+                    <a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/index.html#section-assumptions" class="list-group-item list-group-item-action bg-light">Assumptions</a>
+
+
+
+                    <a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/index.html#section-coding-tasks" class="list-group-item list-group-item-action bg-light">Coding
+                        Tasks</a>
+
+               
+                    <a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/index.html#section-grading" class="list-group-item list-group-item-action bg-light">Grading</a>
+
+
+                    <a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/index.html#section-academic-integrity" class="list-group-item list-group-item-action bg-light">Academic Integrity</a>
+
+                    <a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/index.html#section-submission" class="list-group-item list-group-item-action bg-light">Submission</a>
+
+                    <a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/index.html#section-faqs" class="list-group-item list-group-item-action bg-light">FAQs</a>
+
+
+
+
+                    <br>
+                    <span class="list-group-item list-group-item-action bg-light">
+                        <span id="ta_name">BAI, Sikai</span>
+                        <br>
+                        <span id="ta_email">sbaiae@connect.ust.hk</span><br>
+
+
+                </span></div>
+
+
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <div class="col-sm-9">
+                    <span class="navbar-toggler-icon" id="menu-toggle"></span>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://course.cse.ust.hk/comp2011/">Course Webpage</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="container-fluid border-bottom my-5">
+                <div class="mume markdown-preview  ">
+
+
+                    <h1 class="mume-header" id="page-title">COMP2011 PA2</h1>
+                    <h2>Simpified MineSweeper Game Using Recursion</h2>
+
+                    <figure class="figure mx-auto d-block">
+                        <img src="./COMP2011 PA2_files/minesweeper_game.png" class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:65%;">
+                    </figure>
+
+                    <p style="text-align: left;">
+                        <em>
+                            </em></p><p><em>
+                                 In this project assignment, we would like to implement a simplified text-based minesweeper game using recursion.
+                            The above screenshot serves only as an illustration.
+                            Minesweeper is a popular pre-installed game in Windows 3.1/95/98/XP.
+                            
+                            <a href="https://minesweeper.online/start/1" target="_blank"><strong>Here</strong></a> 
+                            is an online minesweeper game if you never play a minesweeper game.
+                            </em></p><em>
+                            
+
+                            
+                        </em>
+                    <p></p>
+
+
+                    <h2 class="mume-header" id="section-introduction">Introduction</h2>
+
+
+                    <p>
+                        Upon completing this project assignment, you will achieve the following learning outcomes:
+
+                    </p><ul>
+                        
+                        <li>Skillful in organizing your program through <strong>functions</strong></li>
+                        <li>Applying <strong>recursion</strong> technique to implement the minesweeper game
+                        
+                            <ul>
+                                <li><strong style="color:red;">You MUST use recursion without using loops </strong> to complete all 3 coding tasks below</li>
+                                <li>If you write some helper functions, you <strong style="color:red;">CANNOT use any loops inside your helper functions. </strong> We will have code checking after the submission deadline.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p></p>
+
+                    <h2 class="mume-header" id="section-skeleton-code">Skeleton Code</h2>
+
+                    <p>
+
+                        A skeleton code: <strong>
+                            <a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/pa2_skeleton.zip">pa2_skeleton.zip</a>
+                        </strong> is provided.
+                        <br>
+                        Sample input and output files are included in the zip file.
+                        <br>
+
+
+                    </p><ul>
+                        <li><strong>DO NOT</strong> start from scratch.</li>
+                        <li>You can search the keyword <strong>TODO</strong> in the skeleton code to locate the parts
+                            you need to implement</li>
+                        <li><strong>READ</strong> the skeleton code carefully. Many useful things are provided in the
+                            skeleton code</li>
+                        <li><strong>DO NOT</strong> include extra header files</li>
+                        <li><strong>DO NOT</strong> use global variables</li>
+                        <li><strong>DO NOT</strong> add extra <code language="language-cpp" class=" language-none">cin</code> or <code language="language-cpp" class=" language-none">cout</code> statements
+
+                            <ul>
+                                <li>It is because the input and output handling are given in the skeleton code</li>
+                                <li>ZINC is strict when comparing the output text. ZINC can only skip extra empty lines.
+                                    Extra output statements (e.g., an extra word, an extra sentence, or an extra empty
+                                    space in the middle) may fail the ZINC test cases</li>
+                                <li><strong style="color:red;">If you add extra output statements for debugging
+                                        purposes, please remember to delete them before your final code
+                                        submission</strong></li>
+                            </ul>
+
+
+
+
+                        </li>
+                        <li>If needed, you can add extra constants, local variables, and extra helper functions</li>
+
+                        <li><strong style="color:red;">Do not use loops if the required functions need to be implemented using recursion.</strong>
+                        Code checking will be applied after the submission. <strong style="color:red;">0 marks will be assigned</strong> if loop instead of recursion
+                    is used on these functions.</li>
+
+
+                    </ul>
+                    <p></p>
+
+
+
+
+
+
+
+
+
+
+
+           
+
+
+                    <h2 class="mume-header" id="section-complete-example">A Complete Example</h2>
+
+                    <p>The input values are marked as <span class="input">Green</span></p>
+
+                    <pre style="border: 1px solid; padding: 5px;">== Game Menu ==
+0: Exit the Game
+1: Load mine map
+2: Make a move  
+Enter your option: <span class="input">1</span>
+Enter the map file name: <span class="input">map1.txt</span>
+The real map: 
+    0 1 2 3 4 5 6 7 8
+0 . . * . . * * . .
+1 . . . . . . * . .
+2 . . . . . . . * .
+3 . . . . . . * * .
+4 . . . . . . . . .
+5 * . . . . . . . .
+6 . . . . . . . . .
+7 . . . . . . . . * 
+8 . * . . . . . . .
+The current map:
+    0 1 2 3 4 5 6 7 8
+0 . . . . . . . . .
+1 . . . . . . . . .
+2 . . . . . . . . .
+3 . . . . . . . . .
+4 . . . . . . . . .
+5 . . . . . . . . .
+6 . . . . . . . . .
+7 . . . . . . . . .
+8 . . . . . . . . .
+== Game Menu ==
+0: Exit the Game
+1: Load mine map
+2: Make a move
+Enter your option: <span class="input">2</span>
+Enter your move (row column): <span class="input">0 0</span>
+Success: Explore the current map at row/column: 0 0
+The current map:
+    0 1 2 3 4 5 6 7 8
+0   1 . . . . . . .
+1   1 1 1 1 3 . . .
+2           2 . . .
+3           1 . . .
+4 1 1       1 2 2 1
+5 . 1
+6 . 1           1 1
+7 . 1 1         1 .
+8 . . 1         1 .
+The total number of mines in the real map is: 10
+The total number of empty cells in the current map is: 23
+== Game Menu ==
+0: Exit the Game
+1: Load mine map
+2: Make a move
+Enter your option: <span class="input">2</span>
+Enter your move (row column): <span class="input">6 0</span>
+Success: Explore the current map at row/column: 6 0
+The current map:
+    0 1 2 3 4 5 6 7 8
+0   1 . . . . . . .
+1   1 1 1 1 3 . . .
+2           2 . . .
+3           1 . . .
+4 1 1       1 2 2 1
+5 . 1
+6 1 1           1 1
+7 . 1 1         1 .
+8 . . 1         1 .
+The total number of mines in the real map is: 10
+The total number of empty cells in the current map is: 22
+== Game Menu ==
+0: Exit the Game
+1: Load mine map
+2: Make a move
+Enter your option: <span class="input">2</span> 
+Enter your move (row column): <span class="input">7 0</span>
+Success: Explore the current map at row/column: 7 0
+The current map:
+    0 1 2 3 4 5 6 7 8
+0   1 . . . . . . .
+1   1 1 1 1 3 . . .
+2           2 . . .
+3           1 . . .
+4 1 1       1 2 2 1
+5 . 1
+6 1 1           1 1
+7 1 1 1         1 .
+8 . . 1         1 .
+The total number of mines in the real map is: 10
+The total number of empty cells in the current map is: 21
+== Game Menu ==
+0: Exit the Game
+1: Load mine map
+2: Make a move
+Enter your option: <span class="input">2</span>
+Enter your move (row column): <span class="input">8 0</span>
+Success: Explore the current map at row/column: 8 0
+The current map:
+    0 1 2 3 4 5 6 7 8
+0   1 . . . . . . .
+1   1 1 1 1 3 . . .
+2           2 . . .
+3           1 . . .
+4 1 1       1 2 2 1
+5 . 1
+6 1 1           1 1
+7 1 1 1         1 .
+8 1 . 1         1 .
+The total number of mines in the real map is: 10
+The total number of empty cells in the current map is: 20
+== Game Menu ==
+0: Exit the Game
+1: Load mine map
+2: Make a move
+Enter your option: <span class="input">2</span>
+Enter your move (row column): <span class="input">0 3</span>
+Success: Explore the current map at row/column: 0 3
+The current map:
+    0 1 2 3 4 5 6 7 8
+0   1 . 1 . . . . .
+1   1 1 1 1 3 . . .
+2           2 . . .
+3           1 . . .
+4 1 1       1 2 2 1
+5 . 1
+6 1 1           1 1
+7 1 1 1         1 . 
+8 1 . 1         1 .
+The total number of mines in the real map is: 10
+The total number of empty cells in the current map is: 19
+== Game Menu ==
+0: Exit the Game
+1: Load mine map
+2: Make a move
+Enter your option: <span class="input">2</span>
+Enter your move (row column): <span class="input">0 4</span>
+Success: Explore the current map at row/column: 0 4
+The current map:
+    0 1 2 3 4 5 6 7 8
+0   1 . 1 1 . . . .
+1   1 1 1 1 3 . . .
+2           2 . . .
+3           1 . . .
+4 1 1       1 2 2 1
+5 . 1
+6 1 1           1 1
+7 1 1 1         1 .
+8 1 . 1         1 .
+The total number of mines in the real map is: 10
+The total number of empty cells in the current map is: 18
+== Game Menu ==
+0: Exit the Game
+1: Load mine map
+2: Make a move
+Enter your option: <span class="input">2</span>
+Enter your move (row column): <span class="input">0 7</span>
+Success: Explore the current map at row/column: 0 7
+The current map:
+    0 1 2 3 4 5 6 7 8
+0   1 . 1 1 . . 2 .
+1   1 1 1 1 3 . . .
+2           2 . . .
+3           1 . . .
+4 1 1       1 2 2 1
+5 . 1
+6 1 1           1 1
+7 1 1 1         1 .
+8 1 . 1         1 .
+The total number of mines in the real map is: 10
+The total number of empty cells in the current map is: 17
+== Game Menu ==
+0: Exit the Game
+1: Load mine map
+2: Make a move
+Enter your option: <span class="input">2</span>
+Enter your move (row column): <span class="input">0 8</span>
+Success: Explore the current map at row/column: 0 8
+The current map:
+    0 1 2 3 4 5 6 7 8
+0   1 . 1 1 . . 2
+1   1 1 1 1 3 . 3 1
+2           2 . . .
+3           1 . . .
+4 1 1       1 2 2 1
+5 . 1
+6 1 1           1 1
+7 1 1 1         1 .
+8 1 . 1         1 .
+The total number of mines in the real map is: 10
+The total number of empty cells in the current map is: 14
+== Game Menu ==
+0: Exit the Game
+1: Load mine map
+2: Make a move
+Enter your option: <span class="input">2</span>
+Enter your move (row column): <span class="input">8 8</span>
+Success: Explore the current map at row/column: 8 8
+The current map:
+    0 1 2 3 4 5 6 7 8
+0   1 . 1 1 . . 2
+1   1 1 1 1 3 . 3 1
+2           2 . . .
+3           1 . . .
+4 1 1       1 2 2 1
+5 . 1
+6 1 1           1 1
+7 1 1 1         1 .
+8 1 . 1         1 1
+The total number of mines in the real map is: 10
+The total number of empty cells in the current map is: 13
+== Game Menu ==
+0: Exit the Game
+1: Load mine map
+2: Make a move
+Enter your option: <span class="input">2</span>
+Enter your move (row column): <span class="input">2 6</span>
+Success: Explore the current map at row/column: 2 6
+The current map:
+    0 1 2 3 4 5 6 7 8
+0   1 . 1 1 . . 2
+1   1 1 1 1 3 . 3 1
+2           2 4 . .
+3           1 . . .
+4 1 1       1 2 2 1
+5 . 1
+6 1 1           1 1
+7 1 1 1         1 .
+8 1 . 1         1 1
+The total number of mines in the real map is: 10
+The total number of empty cells in the current map is: 12
+== Game Menu ==
+0: Exit the Game
+1: Load mine map
+2: Make a move
+Enter your option: <span class="input">2</span>
+Enter your move (row column): <span class="input">2 8</span>
+Success: Explore the current map at row/column: 2 8      
+The current map:
+    0 1 2 3 4 5 6 7 8
+0   1 . 1 1 . . 2
+1   1 1 1 1 3 . 3 1
+2           2 4 . 2
+3           1 . . .
+4 1 1       1 2 2 1
+5 . 1
+6 1 1           1 1
+7 1 1 1         1 .
+8 1 . 1         1 1
+The total number of mines in the real map is: 10
+The total number of empty cells in the current map is: 11
+== Game Menu ==
+0: Exit the Game
+1: Load mine map
+2: Make a move
+Enter your option: <span class="input">2</span>
+Enter your move (row column): <span class="input">3 8</span>
+Success: Explore the current map at row/column: 3 8
+The current map:
+    0 1 2 3 4 5 6 7 8
+0   1 . 1 1 . . 2
+1   1 1 1 1 3 . 3 1
+2           2 4 . 2
+3           1 . . 2
+4 1 1       1 2 2 1
+5 . 1
+6 1 1           1 1
+7 1 1 1         1 .
+8 1 . 1         1 1
+The total number of mines in the real map is: 10
+The total number of empty cells in the current map is: 10
+Game finished! All non-mine cells are explored!</pre>
+
+                  
+
+                    <h2 class="mume-header" id="section-assumptions">Assumptions</h2>
+
+                    <ul>
+
+                        <li>The map has at least 1 row and at most 20 rows, inclusive</li>
+                        <li>The map has at least 1 column and at most 30 columns, inclusive</li>
+
+                        <li><strong style="color:red;">Do not use loops if the required functions need to be implemented using recursion.</strong>
+                            Code checking will be applied after the submission. <strong style="color:red;">0 marks will be assigned</strong> if loop instead of recursion
+                        is used on these functions.</li>
+                        
+                    </ul>
+
+
+                    <h2 class="mume-header" id="section-coding-tasks">Coding Tasks</h2>
+
+                    <ul>
+
+                        <li>You can find the following functions in the skeleton code:
+
+                            <pre class=" language-cpp"><code class=" language-cpp" style="white-space: pre-wrap;"><span class="token comment">// === Start the recursion coding tasks for PA2 ===</span>
+<span class="token comment">//</span>
+<span class="token comment">// Note: The required recursive functions can be found in this region</span>
+<span class="token comment">//</span>
+<span class="token comment">// === End the recursion coding tasks for PA2 ===</span></code></pre>
+
+
+
+                        </li>
+
+                        <li>You can add extra helper functions and constants inside the above region. 
+                            <strong>DO NOT</strong> change other parts of the skeleton code.
+                        </li>
+
+
+                        <li>You only need to complete the following coding tasks:
+
+
+<p><strong>Task1: Implement fillMapUsingRecursion</strong></p>
+
+    <ul>
+        <li>Sub-divide the problem into 4 sub-problems, and use recursion to solve them</li>
+        <li>Think carefully about the base case(s)</li>
+        <li>Here is the illustration of the recursive solution:
+
+            <figure class="figure mx-auto d-block">
+                <img src="./COMP2011 PA2_files/recur_func_1.png" class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:65%;">
+            </figure>
+
+        </li>
+    </ul>
+
+
+<pre class=" language-cpp"><code class=" language-cpp" style="white-space: pre-wrap;"><span class="token comment">// TODO: Implement fillMapUsingRecursion</span>
+<span class="token comment">// This function fills in a 2D array with the input character in a given range using recursion</span>
+<span class="token comment">// Note: You MUST USE recursion to implement this function</span>
+<span class="token comment">// 0 marks will be given if you use loops to implement this function</span>
+<span class="token comment">//</span>
+<span class="token comment">// @param map: The 2D array storing the map information</span>
+<span class="token comment">// @param startRow: The start row index</span>
+<span class="token comment">// @param startCol: The start column index</span>
+<span class="token comment">// @param endRow: The end row index</span>
+<span class="token comment">// @param endCol: The end column index</span>
+<span class="token comment">// @param initChar: The character to fill the 2D array</span>
+<span class="token keyword">void</span> <span class="token function">fillMapUsingRecursion</span><span class="token punctuation">(</span><span class="token keyword">char</span> map<span class="token punctuation">[</span>MAX_ROWS<span class="token punctuation">]</span><span class="token punctuation">[</span>MAX_COLS<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">int</span> startRow<span class="token punctuation">,</span> <span class="token keyword">int</span> startCol<span class="token punctuation">,</span> <span class="token keyword">int</span> endRow<span class="token punctuation">,</span> <span class="token keyword">int</span> endCol<span class="token punctuation">,</span> <span class="token keyword">char</span> initChar<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span></code></pre>
+ <ul>
+    <li>Here is an example of filling the current map with empty cell at the beginning of the game:
+
+        <table class="table">
+
+
+            <tbody>
+                <tr>
+                    <th style="width:40%;">The inputs</th>
+                    <th style="width:40%;">The current map (filled)</th>
+                    
+                </tr>
+                <tr>
+                    <td>
+                        <pre>map=currentMap, startRow=0, startCol=0, endRow=numRows-1, endCol=numCols-1, initChar='.'
+                        </pre>
+                    </td>
+                    <td>
+                        <pre>  0 1 2 3 4 5 6 7 8
+0 . . . . . . . . .
+1 . . . . . . . . .
+2 . . . . . . . . .
+3 . . . . . . . . .
+4 . . . . . . . . .
+5 . . . . . . . . .
+6 . . . . . . . . .
+7 . . . . . . . . .
+8 . . . . . . . . .
+                        </pre>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+
+
+
+    </li>
+
+ </ul>
+
+<p><strong>Task2: Implement countCharFromMapUsingRecursion</strong></p>
+
+<ul>
+    <li>The idea is very similar to Task1</li>
+    <li>Think carefully about the base case(s), in particular, the return value of the base case(s)</li>
+    <li>For each recursive call, you need to sum up 4 return values and return the sum</li>
+    
+</ul>
+
+
+<pre class=" language-cpp"><code class=" language-cpp" style="white-space: pre-wrap;"><span class="token comment">// TODO: Implement countCharFromMapUsingRecursion</span>
+<span class="token comment">// This function counts the number of characters in a 2D array in a given range using recursion</span>
+<span class="token comment">// Note: You MUST USE recursion to implement this function</span>
+<span class="token comment">// 0 marks will be given if you use loops to implement this function</span>
+<span class="token comment">//</span>
+<span class="token comment">// @param map: The 2D array storing the map information</span>
+<span class="token comment">// @param startRow: The start row index</span>
+<span class="token comment">// @param startCol: The start column index</span>
+<span class="token comment">// @param endRow: The end row index</span>
+<span class="token comment">// @param endCol: The end column index</span>
+<span class="token comment">// @param ch: The character to be counted from the 2D array</span>
+<span class="token keyword">int</span> <span class="token function">countCharFromMapUsingRecursion</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> map<span class="token punctuation">[</span>MAX_ROWS<span class="token punctuation">]</span><span class="token punctuation">[</span>MAX_COLS<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">int</span> startRow<span class="token punctuation">,</span> <span class="token keyword">int</span> startCol<span class="token punctuation">,</span> <span class="token keyword">int</span> endRow<span class="token punctuation">,</span> <span class="token keyword">int</span> endCol<span class="token punctuation">,</span> <span class="token keyword">char</span> ch<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// delete this line to get started</span>
+<span class="token punctuation">}</span></code></pre>
+
+<ul>
+    <li>Here are examples of counting the total number of mines in the real map and empty cells in the current map:
+
+        <table class="table">
+
+
+            <tbody>
+                <tr>
+                    <th style="width:30%;">The input map</th>
+                    <th style="width:30%;">The inputs</th>
+                    <th style="width:30%;">The output</th>
+                    
+                </tr>
+                <tr>
+                    <td>
+                        <pre>  0 1 2 3 4 5 6 7 8
+0 . . * . . * * . .
+1 . . . . . . * . .
+2 . . . . . . . * .
+3 . . . . . . * * .
+4 . . . . . . . . .
+5 * . . . . . . . .
+6 . . . . . . . . .
+7 . . . . . . . . * 
+8 . * . . . . . . .
+                        </pre>
+                    </td>
+                    <td>
+                        <pre>map=realMap, startRow=0, startCol=0, endRow=numRows-1, endCol=numCols-1, ch='*'
+                        </pre>
+                    </td>
+                    <td>
+                        <pre>10
+                        </pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <pre>  0 1 2 3 4 5 6 7 8
+0   1 . . . . . . .
+1   1 1 1 1 3 . . .
+2           2 . . .
+3           1 . . .
+4 1 1       1 2 2 1
+5 . 1
+6 . 1           1 1
+7 . 1 1         1 .
+8 . . 1         1 .
+                        </pre>
+                    </td>
+                    <td>
+                        <pre>map=currentMap, startRow=0, startCol=0, endRow=numRows-1, endCol=numCols-1, ch='.'
+                        </pre>
+
+                    </td>
+                    <td>
+                        <pre>23
+                        </pre>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+    </li>
+</ul>
+
+<p><strong>Task3: Implement exploreMapUsingRecursion</strong></p>
+
+<ul>
+    <li>Task3 is harder than Task1 and Task2</li>
+    <li>You may implement a helper function to count the neigboring mines, but no loops can be used for your helper functions</li>
+    <li>You may need to have at most 8 recursive calls</li>
+    <li>Consider the following real map:
+
+        <pre>  0 1 2 3 4 5 6 7 8
+0 . . * . . * * . .
+1 . . . . . . * . .
+2 . . . . . . . * .
+3 . . . . . . * * .
+4 . . . . . . . . .
+5 * . . . . . . . .
+6 . . . . . . . . .
+7 . . . . . . . . * 
+8 . * . . . . . . .
+        </pre>
+
+    </li>
+    <li>Here are some examples of exploring map using recursion:
+
+        <table class="table">
+
+
+            <tbody>
+                <tr>
+                    <th style="width:30%;">The current map (before)</th>
+                    <th style="width:30%;">Operations</th>
+                    <th style="width:30%;">The current map (after)</th>
+                    
+                </tr>
+                <tr>
+                    <td>
+                        <pre>  0 1 2 3 4 5 6 7 8
+0 . . . . . . . . .
+1 . . . . . . . . .
+2 . . . . . . . . .
+3 . . . . . . . . .
+4 . . . . . . . . .
+5 . . . . . . . . .
+6 . . . . . . . . .
+7 . . . . . . . . .
+8 . . . . . . . . .
+                        </pre>
+                    </td>
+                    <td>
+                        <pre>Enter your option: 2
+Enter your move (row column): 0 0
+                        </pre>
+                    </td>
+                    <td>
+                        <pre>  0 1 2 3 4 5 6 7 8
+0   1 . . . . . . .
+1   1 1 1 1 3 . . .
+2           2 . . .
+3           1 . . .
+4 1 1       1 2 2 1
+5 . 1
+6 . 1           1 1
+7 . 1 1         1 .
+8 . . 1         1 .
+                        </pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <pre>  0 1 2 3 4 5 6 7 8
+0   1 . . . . . . .
+1   1 1 1 1 3 . . .
+2           2 . . .
+3           1 . . .
+4 1 1       1 2 2 1
+5 . 1
+6 . 1           1 1
+7 . 1 1         1 .
+8 . . 1         1 .
+                        </pre>
+                    </td>
+                    <td>
+                        <pre>Enter your option: 2
+Enter your move (row column): 6 0
+                        </pre>
+
+                    </td>
+                    <td>
+                        <pre>  0 1 2 3 4 5 6 7 8
+0   1 . . . . . . .
+1   1 1 1 1 3 . . .
+2           2 . . .
+3           1 . . .
+4 1 1       1 2 2 1
+5 . 1
+6 1 1           1 1
+7 . 1 1         1 .
+8 . . 1         1 .
+                        </pre>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+    </li>
+</ul>
+
+
+<pre class=" language-cpp"><code class=" language-cpp" style="white-space: pre-wrap;"><span class="token comment">// TODO: Implement exploreMapUsingRecursion</span>
+<span class="token comment">// This function explores (i.e., updates) the current map</span>
+<span class="token comment">// Note: You MUST USE recursion to implement this function</span>
+<span class="token comment">// 0 marks will be given if you use loops to implement this function</span>
+<span class="token comment">//</span>
+<span class="token comment">// @param realMap: The 2D array storing the real map information</span>
+<span class="token comment">// @param currentMap: The 2D array storing the current map (i.e., the exploring map) information</span>
+<span class="token comment">// @param numRows: The number of rows for the maps (both maps have the same size)</span>
+<span class="token comment">// @param numCols: The number of columns for the maps (both maps have the same size)</span>
+<span class="token comment">// @param row: The row index to explore</span>
+<span class="token comment">// @param col: The col index to explore</span>
+<span class="token keyword">void</span> <span class="token function">exploreMapUsingRecursion</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> realMap<span class="token punctuation">[</span>MAX_ROWS<span class="token punctuation">]</span><span class="token punctuation">[</span>MAX_COLS<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">char</span> currentMap<span class="token punctuation">[</span>MAX_ROWS<span class="token punctuation">]</span><span class="token punctuation">[</span>MAX_COLS<span class="token punctuation">]</span><span class="token punctuation">,</span>
+                                <span class="token keyword">int</span> numRows<span class="token punctuation">,</span> <span class="token keyword">int</span> numCols<span class="token punctuation">,</span> <span class="token keyword">int</span> row<span class="token punctuation">,</span> <span class="token keyword">int</span> col<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span></code></pre>
+
+
+
+
+
+                        </li>
+
+                    </ul>
+
+                    <h4><span class="badge badge-danger">Checking uninitialized variables</span></h4>
+
+
+
+                    <p>
+                        Many students forget to initialize the variables before using them.
+                        Sometimes, it will cause serious problems.
+                        In most of the operating systems (e.g., Linux),
+                        variables won't be initialized (i.e., there are garbage values stored if the variables
+                        are not
+                        initialized and being used.)
+                    </p>
+
+                    <p style="text-align: center;"><strong>ZINC is running in Linux, so variables won't be
+                            initialized
+                            automatically.</strong></p>
+
+                    <p>
+                        The following method can ask the compiler to check uninitialized variables. For example,
+                        the
+                        following code is stored in a file named <code class=" language-none">uninitialized_variables.cpp</code>, you
+                        can add a
+                        flag <code class=" language-none">-Wuninitialized</code> to check:
+                    </p>
+
+                    <pre class=" language-none"><code class=" language-none">g++ uninitialized_variables.cpp -Wuninitialized</code></pre>
+
+                    <p>The above technique may be useful for your labs and projects. Here is a demo in vscode:
+                    </p>
+
+                    <p>
+                    </p><figure class="figure mx-auto d-block">
+                        <img src="./COMP2011 PA2_files/demo_check_variables.png" class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:60%;">
+                    </figure>
+                    <p></p>
+
+                    <p>
+                        In additon, if you want to see all warning messages, you can use <code class=" language-none">-Wall</code> to check:
+                    </p>
+
+                    <pre class=" language-none"><code class=" language-none">g++ uninitialized_variables.cpp -Wall</code></pre>
+
+
+                    <h4><span class="badge badge-danger">Compilation and Running Test Cases</span></h4>
+
+
+                    <p>Similar to labs, you should follow similar steps to run the test cases. You won't see
+                        your ZINC
+                        grading report before the deadline.</p>
+
+                    <p>Limitations of the ZINC system:
+                    </p><ul>
+                        <li><strong>DO NOT</strong> use <strong>cerr</strong> because ZINC cannot grade cerr output. You
+                            can check this problem by following the checking procedures below.
+                            In PA1, you <strong>CANNOT</strong> add extra cin/cout statements, so it won't cause any
+                            issues. </li>
+                        <li><strong>DO NOT</strong> return a non-zero return code in the main function. ZINC will treat
+                            your program as "crash" and won't continue the grading.
+                            In PA1, you <strong>CANNOT</strong> modify the main function, so it won't cause any issues.
+                        </li>
+                    </ul>
+                    <p></p>
+
+                    <p>Please compare your outputs with the desired outputs:
+                    </p><ul>
+                        <li>In VSCode, please open the terminal by one of the following two ways:
+                            <ul>
+                                <li>Press the key Ctrl+Shift+` in Windows/Linux, or Control+Shift+Backquote in
+                                    Mac</li>
+                                <li>From the menubar, select Terminal &gt; New Terminal</li>
+                            </ul>
+                            And then run this code to compile your code:
+                            <br>
+                            Note: <code class=" language-none">-Wall</code> flag is added to display more debugging information. It helps you identify some hidden problems (e.g., using uninitialized variables).
+                            <pre class="shadow p-3 mb-1 bg-white rounded"><span id="command_compile_source">g++ -std=c++11 -Wall pa2.cpp -o pa2</span></pre>
+                        </li>
+                        <li>You need to redirect the input of executable
+                            program to the txt test case files we provided, and redirect the output to different
+                            txt
+                            files. Here are the commands:
+
+                            <ul>
+                                <li>In MacOS or Linux:
+                                    <pre class="shadow p-3 mb-1 bg-white rounded"><span id="command_run_mac_linux">./pa2 &lt; testcase/input1.txt &gt; myOutput2.txt</span></pre>
+                                </li>
+                                <li>In Windows:
+                                    <pre class="shadow p-3 mb-1 bg-white rounded"><span id="command_run_win">Get-Content testcase/input2.txt | ./pa2 &gt; myOutput1.txt</span></pre>
+                                </li>
+                            </ul>
+
+                            <p>Please replace the filenames accordingly if you would like to check other output
+                                files.
+                            </p>
+                        </li>
+                        <li>After that, you can compare your own output text files with the desired outputs one
+                            by one.
+                            You can
+                            compare any two files by VSCode:
+                            <ul>
+                                <li>Right click the first file you want to compare in VSCode Explorer, choose
+                                    <strong>Select for
+                                        Compare</strong><img class="mx-auto d-block" alt="Responsive image" style="max-height:350px;" src="./COMP2011 PA2_files/compare1.png">
+                                </li>
+                                <li>Right click the second file you want to compare in VSCode Explorer, choose
+                                    <strong>Compare with
+                                        Selected</strong><img class="mx-auto d-block" src="./COMP2011 PA2_files/compare2.png" alt="Responsive image" style="max-height:350px;">
+                                </li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                    <p></p>
+
+                    <h4><span class="badge badge-danger">A Sample Executable in Virtual Barn</span></h4>
+
+                    <p>Students may use different operating systems (e.g., Windows/Mac/Linux), so the executable file is
+                        prepared in Virtual Barn:
+                        <strong><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/pa2.exe">pa2.exe</a></strong>
+                    </p>
+
+                    <p>If you want to run the sample executable, you should follow 
+                        
+                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa1/run_pa1_exe.html">a similar tutorial in PA1</a>
+                    </p>
+
+
+                    <h2 class="mume-header" id="section-grading">Grading</h2>
+
+                    <h4><span class="badge badge-info">Before the deadline</span></h4>
+
+
+                    <p>The following test cases are released:</p>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <tbody><tr>
+                                <th style="width:10%;"> Input</th>
+                                <th style="width:10%;"> Output</th>
+                                <th style="width:10%;">Map</th>
+                                <th style="width:20%;">Category</th>
+                                <th style="width:50%;">Description</th>
+                            </tr>
+                            <tr>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/input1.txt">input1.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/output1.txt">output1.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/map1.txt">map1.txt</a></td>
+                                <td>
+                                    Normal Gameplay
+                                </td>
+                                <td>
+                                    Gameplay using map1 (a 9x9 map)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/input2.txt">input2.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/output2.txt">output2.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/map1.txt">map1.txt</a></td>
+                                <td>
+                                    Normal Gameplay
+                                </td>
+                                <td>
+                                    Another gameplay using map1
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/input3.txt">input3.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/output3.txt">output3.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/map1.txt">map1.txt</a></td>
+                                <td>
+                                    Counting Adjacent Cells
+                                </td>
+                                <td>
+
+                                    Focusing on counting the number of neigboring mines
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/input4.txt">input4.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/output4.txt">output4.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/map2.txt">map2.txt</a></td>
+                                <td>
+                                    Normal Gameplay
+                                </td>
+                                <td>
+                                    A complete gameplay using map2 (a 3x3 map)
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/input5.txt">input5.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/output5.txt">output5.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/map2.txt">map2.txt</a></td>
+                                <td>
+                                    Game Over
+                                </td>
+                                <td>
+                                    A gameover using map2 (a 3x3 map)
+                                </td>
+                                
+                            </tr>
+
+                            <tr>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/input6.txt">input6.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/output6.txt">output6.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/map3.txt">map3.txt</a></td>
+                                <td>
+                                    Normal Gameplay
+                                </td>
+                                <td>
+                                    A gameplay using map3 (a 5x9 map)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/input7.txt">input7.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/output7.txt">output7.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/map3.txt">map3.txt</a></td>
+                                <td>
+                                    Normal Gameplay
+                                </td>
+                                <td>
+                                    Another gameplay using map3 (a 5x9 map)
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/input8.txt">input8.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/output8.txt">output8.txt</a></td>
+                                <td><a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/testcase/map3.txt">map3.txt</a></td>
+                                <td>
+                                    Game Over
+                                </td>
+                                <td>
+                                    A gameover using map3 (a 5x9 map)
+                                </td>
+                                
+                            </tr>
+                         
+                     
+                   
+             
+                      
+
+
+
+                        </tbody></table>
+                    </div>
+
+
+
+
+                    <h4><span class="badge badge-info">After the deadline</span></h4>
+
+                    <p>In addition to the given test cases, we have hidden test cases. They are summarized in
+                        the
+                        following table:</p>
+
+                    <p><em>(*): In this project assignment, we may not able to completely isolate one feature
+                            from
+                            another feature. So, we only list out the main area in the following table.
+
+                        </em></p>
+
+
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <tbody><tr>
+                                <th>Main Area (*)</th>
+                                <th>Number of <br>Given Test Cases</th>
+                                <th>Number of <br>Hidden Test Cases</th>
+                                <th>Total Marks in Each Area</th>
+
+                            </tr>
+
+                            <tr>
+                                <td>Game Over (related to task1-3)</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>20 <br> (4 marks for each case)</td>
+                            </tr>
+
+                            <tr>
+                                <td>Counting Adjacent Cells (mainly related to task3)</td>
+                                <td>1</td>
+                                <td>4 </td>
+                                <td>20 <br> (4 marks for each case)</td>
+                            </tr>
+
+                            <tr>
+                                <td>Normal Gameplay (related to task1-3)</td>
+                                <td>5</td>
+                                <td>5</td>
+                                <td>60 <br> (6 marks for each case)</td>
+                            </tr>
+                  
+                 
+                            <tr>
+                                <th>Total</th>
+                                <th>8</th>
+                                <th>12</th>
+                                <th>100 <br> (20 test cases in total)</th>
+                            </tr>
+                            
+                        </tbody></table>
+                    </div>
+
+
+                    <h2 class="mume-header" id="section-academic-integrity">Academic Integrity</h2>
+
+                    <h4><span class="badge badge-danger">Important - Academic Integrity at HKUST</span></h4>
+
+                    <p>We highly value academic integrity. Please read the
+                        <a href="https://course.cse.ust.hk/comp2011/web/code.html">Honor Code</a> section on our
+                        course
+                        webpage to
+                        make sure you understand what is considered as plagiarism and what the penalties are.
+                        The
+                        followings are some of the highlights:
+                    </p>
+                    <ul>
+                        <li><strong>DO NOT try your "LUCK"</strong> - we use sophisticated plagiarism detection
+                            software
+                            to find cheaters. We also review codes for potential cases manually.</li>
+                        <li>The penalty (for BOTH the copier and the copiee) is not just getting a zero in your
+                            assignment. Please read the Honor Code thoroughly.</li>
+                        <li>Serious offenders will fail the course immediately, and there may be additional
+                            disciplinary
+                            actions from the department and university, up to and including expulsion.</li>
+                        <li><span style="color:red;">Generative AI is NOT allowed in completing your lab exercises or programming assignments</span></li>
+                    </ul>
+                    <p>This programming assignment is challenging, so you are highly recommended to start early.
+                        If you
+                        need clarification on the requirements, please feel free to post on Piazza.
+                        However, to avoid cluttering the forum with repeated/trivial questions, please carefully
+                        read
+                        the given code, the description, the sample output, and the latest <a href="https://course.cse.ust.hk/comp2011/assigns/pa2/web/index.html#section-faqs" "="">FAQ</a>
+                        (refresh
+                        this page regularly) in this page before
+                        you post your questions. In addition, please be reminded that we won't help debug for any student's
+                        assignment for the sake of fairness.</p>
+
+                    <h2 class=" mume-header" id="section-submission">Submission</h2>
+
+                            <h4>Deadline: <span class="badge badge-danger" id="submission_deadline">10-November-2024 23:59</span></h4>
+
+
+                            <p>
+                                You are required to submit your solution to our auto-grading
+                                system: <a href="http://zinc.cse.ust.hk/">ZINC</a>. <br>
+                                Please read the
+                                <a href="https://zinc.cse.ust.hk/guide">ZINC student submission guidelines </a>
+                                if you still don't know how to submit in ZINC.
+                            </p>
+
+                            <p>
+                                The filename is <strong class="lab_submission_filename">pa2.cpp</strong>, and submit it
+                                to
+                                ZINC. A <strong>strong</strong> penalty will be given if your filename is wrong.
+                                You don't need to zip the file if you only submit one file to ZINC.
+                            </p>
+
+                            <p>
+                                Filename checking is enabled in ZINC. If your filename is wrong, you should see
+                                something like this:
+
+                                </p><p>
+                                    <img src="./COMP2011 PA2_files/zinc_wrong_names.png" style="width:300px;">
+                                </p>
+
+                            <p></p>
+
+                            <p>
+                                Other names do not work <em>
+                                    <span id="wrong_filenames">(e.g., PA2.cpp, Pa2.cpp, pa2.cpp.cpp, pa 2.cpp (a space is added between pa and 1) etc. )</span>
+                                </em>
+                            </p>
+                            <p>
+                                Notes:
+                                </p><ul>
+                                    <li>You may submit your file multiple times, but <strong>only the last
+                                            submission
+                                            will be graded</strong>. You do NOT get to choose which version we
+                                        grade. If
+                                        you submit after the deadline, late penalty will be applied according to
+                                        the
+                                        submission time of your last submission.</li>
+
+                                    <li>Submit early to avoid any last-minute problem. Only ZINC submissions
+                                        will be
+                                        accepted.</li>
+
+                                    <li>The ZINC server will be very busy on the last day especially in the last
+                                        few
+                                        hours. However, as long as your submission is successful, we would grade
+                                        your
+                                        latest submission with all test cases after the deadline.</li>
+
+                                    <li>
+                                        Make sure you submit the correct file yourself. You can download your
+                                        own file
+                                        back from ZINC to verify. Again, we only grade what you uploaded last to
+                                        ZINC.
+                                    </li>
+
+                                </ul>
+                            <p></p>
+
+                            <h4>Compilation Requirements</h4>
+
+                            <p><strong style="color:red;">Make sure your program can be compiled and be able to
+                                    execute.</strong></p>
+                            <p>
+                                If we cannot even compile your work, it won't be graded. Therefore, for parts
+                                that you
+                                cannot finish, just put in dummy/empty implementation so that your whole program
+                                can be
+                                compiled for ZINC to grade the other parts that you have done.
+                            </p>
+
+
+                            <h4>Late Submission Policy</h4>
+                            <p>
+                                There will be a penalty of -1 point (out of a maximum 100 points) for every
+                                minute you
+                                are late.
+                                <br>In other words, if you are late for more than 100 minutes, you will get 0
+                                marks.
+                            </p>
+
+
+                            <h2 class="mume-header" id="section-faqs">FAQs</h2>
+
+                            <p>This section will be updated after the release</p>
+
+                            <div class="card p-3 mb-2">
+                                <h5 class="card-title"> My code doesn't work / there is an error, here is the
+                                    code, can
+                                    you help me fix it?</h5>
+                                <p class="card-text">
+                                    As the assignment is a major course assessment, to be fair, we should not
+                                    finish the
+                                    tasks for you.
+                                    <br>We might provide you some hints, but we won't debug for you.
+                                </p>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+    <!-- /#wrapper -->
+    <!-- Bootstrap core JavaScript -->
+    <script src="./COMP2011 PA2_files/jquery.min.js"></script>
+    <script src="./COMP2011 PA2_files/bootstrap.bundle.min.js"></script>
+
+    <!-- prims.js -->
+    <script src="./COMP2011 PA2_files/prism.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+
+
+
+
+</body></html>

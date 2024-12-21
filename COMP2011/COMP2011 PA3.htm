@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)https://course.cse.ust.hk/comp2011/assigns/pa3/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>COMP2011 PA3</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="./COMP2011 PA3_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./COMP2011 PA3_files/simple-sidebar.css">
+
+    <!-- Prism -->
+    <link rel="stylesheet" href="./COMP2011 PA3_files/prism.css">
+
+    <!-- Style for code input (for sample input/output)-->
+    <style>
+        .input {
+            color: #00ff00;
+        }
+    </style>
+
+    <!-- Initialization for this lab template -->
+    <script>
+
+        // ==========================================================
+        // Note for the lab designer: 
+        //
+        // Please change the following values
+        // 
+        // ===========================================================
+
+        const title = "COMP2011 PA3";
+        const ta_name = "Pappas Christodoulos";
+        const ta_email = "cpappas@cse.ust.hk";
+        const lab_submission_filename = "pa3.cpp";
+        const command_compile_origin_source = "g++ -std=c++11 -o pa3 ./pa3.cpp";
+        const command_compile_source = "g++ -std=c++11 -fsanitize=address,leak,undefined  -o pa3 ./pa3.cpp";
+        const command_run_mac_linux = "./pa3 < testcase/input1.txt > myOutput1.txt";
+        const command_run_win = "Get-Content testcase/input1.txt | ./pa3 > myOutput1.txt";
+
+        const submission_deadline = "29-Nov-2024 23:59";
+        const wrong_filenames = "(e.g., PA3.cpp, Pa3.cpp, pa3.cpp.cpp, pa 3.cpp (a space is added between pa and 3) etc. )";
+
+        function fillText(id, text) {
+            const elm = document.getElementById(id);
+            if (elm) {
+                elm.innerText = text;
+            }
+        }
+        function updateLink(id, url) {
+            const elm = document.getElementById(id);
+            if (elm) {
+                elm.setAttribute("href", url);
+            }
+        }
+        function fillAllTextByClassName(className, text) {
+            for (const c of document.getElementsByClassName(className)) {
+                c.innerText = text;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", (event) => {
+
+            // logics to update the lab content when the DOM is ready
+
+            document.title = title;
+            fillText("sidebar-heading", title);
+            fillText("page-title", title);
+            fillText("ta_name", ta_name);
+            fillText("ta_email", ta_email);
+            fillText("command_compile_source", command_compile_source);
+            fillText("command_compile_origin_source", command_compile_origin_source);
+            fillText("command_run_mac_linux", command_run_mac_linux);
+            fillText("command_run_win", command_run_win);
+            fillAllTextByClassName("lab_submission_filename", lab_submission_filename);
+
+            document.getElementById("submission_deadline").innerText = submission_deadline;
+            document.getElementById("wrong_filenames").innerText = wrong_filenames;
+        });
+
+    </script>
+
+</head>
+
+<body class="language-none">
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="sticky-top">
+                <div class="sidebar-heading" id="sidebar-heading">COMP2011 PA3</div>
+                <div class="list-group list-group-flush">
+
+                    <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/index.html#section-introduction" class="list-group-item list-group-item-action bg-light">Introduction</a>
+
+
+
+                    <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/index.html#section-tasks" class="list-group-item list-group-item-action bg-light">Tasks</a>
+
+
+                    
+                    <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/index.html#changes-from-the-original-version" class="list-group-item list-group-item-action bg-light">Changes from the Original Version</a>
+                    
+
+                    <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/index.html#checking-before-submission" class="list-group-item list-group-item-action bg-light">Checking Before Submission</a>
+                    
+                    <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/index.html#section-skeleton-code" class="list-group-item list-group-item-action bg-light">Skeleton
+                        Code</a>
+                    
+                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/index.html#section-academic-integrity" class="list-group-item list-group-item-action bg-light">Academic Integrity</a>
+                    <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/index.html#section-grading-scheme" class="list-group-item list-group-item-action bg-light">Grading
+                        Scheme</a>
+
+
+
+
+                    <br>
+                    <span class="list-group-item list-group-item-action bg-light">
+                        <span id="ta_name">Pappas Christodoulos</span>
+                        <br>
+                        <span id="ta_email">cpappas@cse.ust.hk</span><br>
+                        
+                        <span id="ta_name">Yanjia Li</span>
+                        <br>
+                        <span id="ta_email">ylifs@connect.ust.hk</span><br>
+    
+
+                </span></div>
+
+
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <div class="col-sm-9">
+                    <span class="navbar-toggler-icon" id="menu-toggle"></span>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://course.cse.ust.hk/comp2011/">Course Webpage</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="container-fluid border-bottom my-5">
+                <div class="mume markdown-preview  ">
+
+
+                    <h1 class="mume-header" id="page-title">COMP2011 PA3</h1>
+
+                    <figure class="figure mx-auto d-block">
+                        <img src="./COMP2011 PA3_files/COMP2011Fall2024PA3_Overview.jpg" class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:90%;">
+                    </figure>
+
+                    <p style="text-align: center;">
+
+                        <em>
+                            A simplified version of a social networking site
+                        </em>
+                    </p>
+
+                    <p>
+                        The goal of PA3 is to implement a simplified version of a social networking site where users can write and like posts. To build this system you will use linked lists and dynamic arrays.
+                    </p>
+
+                    <p>
+                        The system maintains the following data-structures:
+                    </p><ul>
+                        <li>A <strong>User</strong> linked list, sorted by the user id (<strong>uid</strong>,
+                            <em>an attribute in this struct</em>).
+                        </li>
+                        <li>A pointers array of <strong>Posts</strong> where:
+                            <ul>
+                                <li>The array is dynamically allocated when the system starts. </li>
+                                <li>Each Post maintains a linked list <strong>Likes</strong> keeping track of the users that liked this post.
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                    <p></p>
+                    <p></p>
+
+
+                    <p>
+                        Upon completion of this project assignment, you should be able to:
+
+                    </p><ul>
+                        <li>Use a linked list to store the users</li>
+                        <li>Use a dynamic array of pointers. Each pointer is pointing to a post which points to the
+                            head of a likes
+                            linked list.</li>
+                        <li>Implement functions to manipulate the above data structures</li>
+                    </ul>
+                    <p></p>
+                    <h2 class="mume-header" id="changes-from-the-original-version">Changes from the Original Version</h2>
+                    19/11/2024
+                    <ul>
+                        <li> Test Cases remained  <strong>unchanged</strong> </li>
+                        <li> We included an additional header &lt;limit&gt; </li> 
+                        <li> The type of uid and pid in the main function is switched to int</li>
+                        <li> The type of num_of_likes in Post is switched to int</li>
+                        <li> We add a message "Cleaning memory" in the main function when "exit the system" is chosen.</li>
+                        <li> In Task 2, we changed the order of prints </li>
+                        <li> In Task 3, we removed the posts_num typo. We don't count the number of posts in the array. </li>
+                        <li> In Task 6, we added the couts in the skeleton. <strong>Do not change the output message.</strong> </li>
+                        <li> We fixed the post_array typo to posts_array. </li>                        
+                        <li> We updated the skeleton code. Please download the latest one to get all updates.</li>
+                        <li> Some testcases will be updated to fix the minor discrepany between message in the skeleton code and output files. You don't need to worry about it. Just make sure your logic flow is correct.</li>          
+                    </ul>
+                    20/11/2024
+                    <ul>
+                        <li> We updated the test cases and fixed the minor discrepany between message in the skeleton code and output files.</li>
+                        <li> ZINC page is created.
+                    </li></ul>
+                    21/11/2024
+                    <ul>
+                        <li>Add memory leak check</li>
+                        <li>In delete_like function, the message is now "The like is successfully deleted"</li>                           
+                        <li>In add_like function, the message is now "Failed to like, uid:"</li>                           
+                        <li> We add "Cleaning memory" in the main function if "exit the system" is chosen.</li>                            
+                        <li>We removed "No posts yet" message from display_posts function</li>
+                    </ul>
+                    
+                    <h2 class="mume-header" id="section-introduction">Introduction</h2>
+
+                    <p>
+                        Your goal is to implement a simplified social networking site which:
+
+                    </p>
+                    <ol>
+
+                        <li>Initialize the data-structures.
+                            <ul>
+                                <li>Set the users linked list to point to <code class="  language-none">nullptr</code></li>
+                                <li>Create a dynamic array of pointers with <strong>initial size 2</strong>. By default,
+                                    each array entry is pointing to <code class="  language-none">nullptr</code>.</li>
+
+                            </ul>
+                        </li>
+
+                        <li>The system asks for an option in a loop. The following operations are supported:
+                            <ul>
+                                <li>Add/Delete Users to the user linked list</li>
+                                <li>Add/Delete a post from the Posts array of pointers.</li>
+                                <li>Add a like to a post</li>
+                                <li>Display all users in increasing order based on their user ids</li>
+                                <li>Display all posts.</li>
+                                <li>Display the users that liked a specific post.</li>
+                                <li>Display the most liked post.</li>
+                                <li>Find the most popular post.</li>
+                                <li>Exit the system</li>
+                            </ul>
+
+                        </li>
+                        <li>When you exit the system, all dynamically allocated memory <strong>MUST BE properly
+                                deallocated</strong>.</li>
+
+                    </ol>
+
+                    <p>
+                        The C++ struct definitions are shown below:
+                    </p>
+
+
+                    <pre class="  language-cpp"><code class="  language-cpp"><span class="token keyword">const</span> <span class="token keyword">int</span> MAX_CHAR_NUM <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span> <span class="token comment">// at most 100 characters (including the NULL character)</span>
+
+<span class="token comment">// A linked list of Users</span>
+<span class="token keyword">struct</span> <span class="token class-name">User</span> <span class="token punctuation">{</span>
+    <span class="token keyword">unsigned</span> <span class="token keyword">int</span> uid<span class="token punctuation">;</span>           <span class="token comment">// id is an unique identifier of the User (e.g., 39)</span>
+    <span class="token keyword">char</span> name<span class="token punctuation">[</span>MAX_CHAR_NUM<span class="token punctuation">]</span><span class="token punctuation">;</span>    <span class="token comment">// name of the User</span>
+    User <span class="token operator">*</span>next<span class="token punctuation">;</span>                 <span class="token comment">// The pointer pointing to the next User</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// A linked list in which every node points to a user</span>
+<span class="token keyword">struct</span> <span class="token class-name">Like_Node</span><span class="token punctuation">{</span>
+    User <span class="token operator">*</span>User_ptr<span class="token punctuation">;</span>
+    Like_Node <span class="token operator">*</span>next<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Struct representing a Post (which is anonymous).</span>
+<span class="token keyword">struct</span> <span class="token class-name">Post</span> <span class="token punctuation">{</span>
+    <span class="token keyword">unsigned</span> <span class="token keyword">int</span> pid<span class="token punctuation">;</span>               <span class="token comment">// id is an unique identifier of the post (e.g., 39)</span>
+    <span class="token keyword">char</span> content<span class="token punctuation">[</span>MAX_CHAR_NUM<span class="token punctuation">]</span><span class="token punctuation">;</span>        <span class="token comment">// the content of the post</span>
+    <span class="token keyword">unsigned</span> <span class="token keyword">int</span> num_of_likes<span class="token punctuation">;</span>      <span class="token comment">// number of sharing of this post</span>
+    Like_Node<span class="token operator">*</span> likes<span class="token punctuation">;</span>               <span class="token comment">// Linked list of users that like this post</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+
+
+
+
+                    <h2 class="mume-header" id="section-tasks">Tasks</h2>
+
+                    <h4><span class="badge badge-danger">Think carefully before writing code</span></h4>
+
+                    <p>In this project assignment, you are free to define new constants, variables (excluding global
+                        variables), functions, etc. </p>
+
+
+                    <p>
+                        <span class="badge badge-warning">DO NOT</span> write any code if you do not understand the
+                        skeleton code.
+
+
+                    </p>
+
+                    <p>
+                        <span class="badge badge-warning">READ</span> the skeleton code and the problem description
+                        carefully.
+                    </p>
+
+                    <p>
+                        <span class="badge badge-warning">REVIEW</span> the related lecture and lab topics.
+                    </p>
+
+
+                    <p>
+                        The suggested order of implementation is:
+                        <strong>Insertions &gt; Deletions</strong>
+                    </p><ul>
+                        <li>Start by implementing user insertions, then posts and after that focus on post likes (e.g., Task 1,3,5).</li>
+                        <li>In parallel, you should also implement the functions for displaying the data (e.g., Task
+                            2,4,6) of the corresponding data-structures, as they will help you with debugging your code
+                        </li>
+                        <li>Make sure that the insertions<strong> work properly </strong> before proceeding to
+                            deletions.</li>
+                        <li>Then proceed with deletions. First implement post deletions and then user deletions.
+                        </li>
+                        <li>We will present the tasks in the suggested implementation order.</li>
+                    </ul>
+                    <p></p>
+
+                    <p>For each task on this web page, we illustrate the general cases using some sample data.
+                        The examples are for illustration of typical cases only. For each task, you need to think
+                        carefully about other cases.
+                    </p>
+
+                    <p>For example:
+                    </p><ul>
+                        <li>What should you do if a linked list is empty?</li>
+                        <li>What should you do if there is an existing item when you are doing insertions?</li>
+                        <li>What should you do if the item does not exist when you are doing modifications/deletions?
+                        </li>
+                        <li>What situations you need to consider when you need to change the head pointer (e.g.,
+                            deleting the first item, inserting as the new first item, etc.)?</li>
+                        <li>... and so on</li>
+                    </ul>
+                    <p></p>
+
+                    <h4>Task 1: Add a new user</h4>
+
+                    <pre class="  language-cpp"><code class="  language-cpp"><span class="token comment">//Adds a user to the users's linked list.</span>
+<span class="token comment">//This function takes as input:</span>
+<span class="token comment">//      1) the users list</span>
+<span class="token comment">//      2) the user id</span>
+<span class="token comment">//      3) its name.</span>
+<span class="token comment">// And works as follows:</span>
+<span class="token comment">//      1) If there is a user with the same user id return false</span>
+<span class="token comment">//      2) Otherwise,</span>
+<span class="token comment">//          a) Add the user maintaining an increasing order</span>
+<span class="token comment">//              of user ids in the list (see examples bellow)</span>
+<span class="token comment">//          b) return true</span>
+<span class="token keyword">bool</span> <span class="token function">add_user</span><span class="token punctuation">(</span>User <span class="token operator">*</span><span class="token operator">&amp;</span>user_head<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">int</span> uid<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> name<span class="token punctuation">[</span>MAX_CHAR_NUM<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment">// TODO: Write code to implement add_user</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+                    <p> For example, here are some examples of add new users </p>
+                    
+                    <ul>
+                        <li>Example 1: The user item list is empty</li>
+                        <li>Example 2: Insert new user (32/"John")</li>
+                        <li>Example 3: Insert new user (6/"Bob")</li>
+                        <li>Example 4: Insert new user (56/"Peter")</li>
+                    </ul>
+                    <figure class="figure mx-auto d-block">
+                        <img src="./COMP2011 PA3_files/COMP2011Fall2024PA3_Task1.jpg" class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:1000px;">
+                    </figure>
+                    <!-- <p>Example 1: The user item list is empty
+                    </p><figure class="figure mx-auto d-block">
+                        <img src=" " class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:1000px;">
+                    </figure>
+
+                    <p></p>
+
+                    <p>Example 2: Insert new user (32/"John")
+                    </p><figure class="figure mx-auto d-block">
+                        <img src=" " class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:400px;">
+                    </figure>
+                    <p></p>
+
+                    <p>Example 3: Insert new user (6/"Bob")
+                    </p><figure class="figure mx-auto d-block">
+                        <img src=" " class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:600px;">
+                    </figure>
+                    <p></p>
+
+                    <p>Example 4: Insert new user (56/"Peter")
+                    </p><figure class="figure mx-auto d-block">
+                        <img src=" " class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:800px;">
+                    </figure>
+                    <p></p> -->
+
+                    <h4>Task 2: Display Users</h4>
+                    <pre class="  language-cpp"><code class="  language-cpp"><span class="token comment">// Display all users:</span>
+<span class="token comment">// This function takes as input:</span>
+<span class="token comment">//      1) the users list</span>
+<span class="token comment">// And works as follows:</span>
+<span class="token comment">//      1) Traverse the list, and invoke the GIVEN function</span>
+<span class="token comment">//              print_user_data(User *user) to print the data of each user</span>
+
+<span class="token comment">// ** DISCLAIMER**: You MUST not modify any GIVEN function or the contents of given cout's.</span>
+<span class="token keyword">void</span> <span class="token function">display_users</span><span class="token punctuation">(</span>User <span class="token operator">*</span>user_head<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// TODO: Write code to implement</span>
+    <span class="token comment">// Print this first and return imidiately if there are no users</span>
+    cout<span class="token operator">&lt;&lt;</span> <span class="token string">"No users in the system yet"</span><span class="token operator">&lt;&lt;</span><span class="token string">"\n"</span><span class="token punctuation">;</span><span class="token comment">//display this when no users exist</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"=== Users List ([uid, name]) ==="</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+                    <p>Here is a sample way to display users:
+
+                    </p><ul>
+                        <li>Suppose we have John(uid:32), Bob(uid:6), and Peter(uid:56) in the list</li>
+                    </ul>
+                    <p></p>
+
+
+                    <pre class="shadow p-3 mb-5 bg-white rounded">                        === Users List ([uid, name]) ===
+                        User Id: 6, name: Bob
+                        User Id: 32, name: John
+                        User Id: 56, name: Peter
+                    </pre>
+
+                    <h4>Task 3: Add a new Post</h4>
+
+                    <pre class="  language-cpp"><code class="  language-cpp"><span class="token comment">// Adds a new post in the posts array of pointers.</span>
+<span class="token comment">// This function takes as input:</span>
+<span class="token comment">//      1) the posts array</span>
+<span class="token comment">//      2) the post id</span>
+<span class="token comment">//      3) the content of the post</span>
+<span class="token comment">//      4) the posts array size</span>
+<span class="token comment">// And works as follows:</span>
+<span class="token comment">//      1) If the post exists (there is a post with the post_id), return false.</span>
+<span class="token comment">//      2) Otherwise:</span>
+<span class="token comment">//          a) if there is empty space:</span>
+<span class="token comment">//              i) Insert the post (in the next empty cell)</span>
+<span class="token comment">//             ii) return true.</span>
+<span class="token comment">//          b) Else:</span>
+<span class="token comment">//              i) Double the array size (e.g., if the array has size 16, then increase it to size 32) and then add the post</span>
+<span class="token comment">//             ii) return true.</span>
+<span class="token keyword">bool</span> <span class="token function">add_post</span><span class="token punctuation">(</span>Post <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">&amp;</span>posts_array<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">int</span> pid<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> content<span class="token punctuation">[</span>MAX_CHAR_NUM<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">unsigned</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span>posts_array_size<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment">// TODO: Write code to implement add_post</span>
+
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+                    <p> For example, here are some examples of post insertion steps: </p>
+                    <ul>
+                        <li>Example 1: The posts_array is empty and contains two entries</li>
+                        <li>Example 2: Add new post</li>
+                        <li>Example 3: Add new post</li>
+                        <li>Example 4: Increase the size of post array and Add new post</li>
+                    </ul>
+                    <figure class="figure mx-auto d-block">
+                        <img src="./COMP2011 PA3_files/COMP2011Fall2024PA3_Task3.jpg" class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:1000px;">
+                    </figure>
+
+
+                    <!-- <p>Example 1: The posts_array is empty and contains two entries
+                    </p><figure class="figure mx-auto d-block">
+                        <img src=" " class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:1000px;">
+                    </figure>
+
+                    <p></p>
+
+                    <p>Example 2: Insert new post (xxxx)
+                    </p><figure class="figure mx-auto d-block">
+                        <img src=" " class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:500px;">
+                    </figure>
+                    <p></p>
+
+                    <p>Example 3: Insert new post (xxx)
+                    </p><figure class="figure mx-auto d-block">
+                        <img src=" " class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:500px;">
+                    </figure>
+
+
+                    <p>Example 4: Insert new post (xxxx).
+                    </p><figure class="figure mx-auto d-block">
+                        <img src=" " class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:800px;">
+                    </figure>
+                    <p></p>
+                    Then we add the new post
+                    <figure class="figure mx-auto d-block">
+                        <img src=" " class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:800px;">
+                    </figure>
+                    <p></p> -->
+
+                    <h4>Task 4: Display posts</h4>
+                    <pre class="  language-cpp"><code class="  language-cpp"><span class="token comment">// Display all posts:</span>
+<span class="token comment">// This function takes as input:</span>
+<span class="token comment">//      1) the posts array</span>
+<span class="token comment">//      2) the posts array size</span>
+<span class="token comment">// And works as follows:</span>
+<span class="token comment">//      1) Traverse the array, and invoke the GIVEN function</span>
+<span class="token comment">//              print_post_data(Post *post) to print the data of each post</span>
+
+<span class="token comment">// ** DISCLAIMER**: You MUST not modify any GIVEN function or the contents of given cout's.</span>
+<span class="token keyword">void</span> <span class="token function">display_posts</span><span class="token punctuation">(</span>Post <span class="token operator">*</span><span class="token operator">*</span>posts_array<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">int</span> num_of_posts<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">// TODO: Write the code to display posts</span>
+
+<span class="token punctuation">}</span></code></pre>
+                    <p>Here is a sample way to display posts:
+                    
+
+
+                    </p><ul>
+                        <li>Assume we have 2 posts</li>
+                    </ul>
+                    <p></p>
+
+                    <pre class="shadow p-3 mb-5 bg-white rounded">                        Post Id: 23, 2 likes, content: C++ is easy.
+                        Post Id: 67, 180 likes, content: C++ is so hard.
+                    </pre>
+                    <h4>Task 5: Like a post</h4>
+
+                    <pre class="  language-cpp"><code class="  language-cpp"><span class="token comment">// A user likes a specific post:</span>
+<span class="token comment">// This function takes as input:</span>
+<span class="token comment">//      1) the users list</span>
+<span class="token comment">//      2) the array of posts</span>
+<span class="token comment">//      3) the id of the user that likes the post,</span>
+<span class="token comment">//      4) the id of the like post</span>
+<span class="token comment">//      5) the posts array size</span>
+<span class="token comment">// And works as follow:</span>
+<span class="token comment">//      1) If the user does not exist return false</span>
+<span class="token comment">//      2) If the post does not exist return false</span>
+<span class="token comment">//      3) If the user already likes the post, return false</span>
+<span class="token comment">//      4) Otherwise, add the like by:</span>
+<span class="token comment">//          a) Adding a new node in the Likes_List that points</span>
+<span class="token comment">//                to the user who likes the post</span>
+<span class="token comment">//          b) Incrementing the number of likes</span>
+<span class="token comment">//          c) return true</span>
+<span class="token keyword">bool</span> <span class="token function">add_like</span><span class="token punctuation">(</span>User <span class="token operator">*</span><span class="token operator">&amp;</span>user_head<span class="token punctuation">,</span>Post <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">&amp;</span>posts_array<span class="token punctuation">,</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span> uid<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> <span class="token keyword">int</span> pid<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">int</span> posts_array_size<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment">// TODO</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+                    <p>Some examples of liking a post.</p>
+                    
+                    <figure class="figure mx-auto d-block">
+                        <img src="./COMP2011 PA3_files/COMP2011Fall2024PA3_Task5.jpg" class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:1000px;">
+                    </figure>
+
+
+                    <h4>Task 6: Unlike a post</h4>
+                    <pre class="  language-cpp"><code class="  language-cpp"><span class="token comment">// Deletes a like made by a user on a specific post:</span>
+<span class="token comment">// This function takes as input:</span>
+<span class="token comment">//      1) the users list</span>
+<span class="token comment">//      2) the posts array</span>
+<span class="token comment">//      3) the id of the user who wants to delete its like,</span>
+<span class="token comment">//      4) the id of the post</span>
+<span class="token comment">//      5) the size of the posts array</span>
+<span class="token comment">// And works as follow:</span>
+<span class="token comment">//      1) If the post is not liked by the specific user return false</span>
+<span class="token comment">//      2) If the user does not exist return false</span>
+<span class="token comment">//      3) If the post does not exist return false</span>
+<span class="token comment">//      4) Otherwise,</span>
+<span class="token comment">//          a) Remove the correspodning node from the Likes_List</span>
+<span class="token comment">//          b) decrease the num_of_likes of that post</span>
+<span class="token comment">//          c) return true</span>
+<span class="token keyword">bool</span> <span class="token function">delete_like</span><span class="token punctuation">(</span>User <span class="token operator">*</span>user_head<span class="token punctuation">,</span> Post  <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">&amp;</span>posts_array<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">int</span> uid<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">int</span> pid<span class="token punctuation">,</span> <span class="token keyword">int</span> posts_array_size<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token comment">// TODO</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Failed to find the user"</span><span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span> <span class="token comment">// print this if the user does not exist</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Failed to find the post"</span><span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span> <span class="token comment">// print this if the post does not exist</span>
+        <span class="token comment">// *** First search for the users and then for the posts ***</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+                    <p>Some examples of unliking the post: </p>
+
+                    <figure class="figure mx-auto d-block">
+                        <img src="./COMP2011 PA3_files/COMP2011Fall2024PA3_Task6.jpg" class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:1000px;">
+                    </figure>
+
+                    <p></p>
+                    
+                    <h4>Task 7: Delete a user</h4>
+
+                    <pre class="  language-cpp"><code class="  language-cpp"><span class="token comment">// Delete a user:</span>
+<span class="token comment">// This function takes as input:</span>
+<span class="token comment">//      1) the users list</span>
+<span class="token comment">//      2) the posts array</span>
+<span class="token comment">//      3) the id of the user to be deleted,</span>
+<span class="token comment">//      4) the size of the post array</span>
+<span class="token comment">// And works as follow:</span>
+<span class="token comment">//      1) If the user does not exist return false</span>
+<span class="token comment">//      2) Otherwise,</span>
+<span class="token comment">//          a) First remove all likes made by this user</span>
+<span class="token comment">//          b) Delete the user from the users list</span>
+<span class="token comment">//          c) return true</span>
+<span class="token keyword">bool</span> <span class="token function">delete_user</span><span class="token punctuation">(</span>User <span class="token operator">*</span><span class="token operator">&amp;</span>user_head<span class="token punctuation">,</span> Post <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">&amp;</span>posts_array<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">int</span> uid<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">unsigned</span> <span class="token keyword">int</span> posts_array_size<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment">// TODO</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Failed to find the user"</span><span class="token operator">&lt;&lt;</span> <span class="token string">"\n"</span><span class="token punctuation">;</span><span class="token comment">// print this if the user does not exist.</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+                    <p>For example, here is a user deletion (uid:56): </p>
+
+                    <p>Example 1: The state of the system before the deletion of ranking (uid:56)</p>
+                    <figure class="figure mx-auto d-block">
+                        <img src="./COMP2011 PA3_files/COMP2011Fall2024PA3_Task7.jpg" class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:1200px;">
+                    </figure>
+
+
+                    <p></p>
+       
+                    <h4>Task 8: Find the most popular post</h4>
+
+                    <pre class="  language-cpp"><code class="  language-cpp"><span class="token comment">// Finds the posts with the largest number of likes:</span>
+<span class="token comment">// This function takes as input:</span>
+<span class="token comment">//      1) the posts array</span>
+<span class="token comment">//      2) the posts array size</span>
+<span class="token comment">// And works as follow:</span>
+<span class="token comment">//      1) If there is not post yet, return false</span>
+<span class="token comment">//      2) Otherwise,</span>
+<span class="token comment">//          a) Find the post with the largest number of likes</span>
+<span class="token comment">//          b) If two posts have the same number of likes, pick the first one (e.g., the oldest one).</span>
+<span class="token comment">//          c) After finding this post, use the print_post_data to print it.</span>
+<span class="token comment">//          d) return true</span>
+
+<span class="token keyword">bool</span> <span class="token function">find_popular_post</span><span class="token punctuation">(</span>Post <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">&amp;</span>posts_array<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">int</span> posts_array_size<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment">// TODO</span>
+    <span class="token comment">// *** Use the print_post_data to print the most popular post ***</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+                    <h4>Task 9: Exit the system</h4>
+
+                    <pre class="  language-cpp"><code class="  language-cpp"><span class="token comment">// Delete every post and user in the system</span>
+<span class="token comment">// This function takes as input:</span>
+<span class="token comment">//      1) the posts array</span>
+<span class="token comment">//      2) the posts array size</span>
+<span class="token comment">//      3) the user list</span>
+<span class="token comment">// And works as follow:</span>
+<span class="token comment">//      1) Delete all the users</span>
+<span class="token comment">//      2) Delete all the Posts</span>
+<span class="token comment">//      3) Delete all the likes</span>
+
+
+<span class="token keyword">void</span> <span class="token function">clean_up</span><span class="token punctuation">(</span>User <span class="token operator">*</span><span class="token operator">&amp;</span>user_head<span class="token punctuation">,</span> Post <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">&amp;</span>posts_array<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> <span class="token keyword">int</span> <span class="token operator">&amp;</span>posts_array_size<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// TODO</span>
+    <span class="token comment">// delete all posts, likes and users, be carefully for the memory leak</span>
+<span class="token punctuation">}</span></code></pre>
+
+
+                    <h2 class="mume-header" id="section-assumptions">Assumptions</h2>
+
+                    <ul>
+
+                        <li>There is no upper limit for the size of the <code class="  language-none">posts_array</code>. </li>
+                        <li>In <code class="  language-none">User</code>,the <code class="  language-none">name</code> attribute has at most <code class="  language-none">MAX_CHAR_NUM</code>
+                            characters (including the NULL character).</li>
+                        
+                        <li>In <code class="  language-none">Post</code>,the <code class="  language-none">content</code> attribute has at most <code class="  language-none">MAX_CHAR_NUM</code>
+                                characters (including the NULL character).</li>
+                        <li>The valid characters are
+                            <code class="  language-none">A-Z</code>, <code class="  language-none">a-z</code>, and <code class="  language-none">0-9</code>
+                        </li>
+                        <li>No spaces and tabs will be used when entering input.
+
+                        </li><li>For numeric input, you can assume the input values are valid (i.e, we won't enter
+                            alphabetical characters when entering a number). </li>
+                        <li>Each user or post is addressed by its uid and pid respectively. This means that
+                            there do not exist users with the same uid or posts with the same pid. However
+                            there can be users with the same name but different uid. The same holds for posts.</li>
+                    </ul>
+
+                    
+                    <h2 class="mume-header" id="checking-before-submission">Checking Before Submission</h2>
+
+                    <h4><span class="badge badge-danger" id="tips_to_check_memory_leak">About memory leak and other
+                            potential errors</span></h4>
+
+                    <p>Memory leak checking is done via the <code class="  language-none">-fsanitize=address,leak,undefined</code> option of a
+                        recent g++ compiler on Linux (it won't work on Windows for the versions we have tested). Other
+                        errors/bugs such as out-of-bounds, use-after-free bugs, and some memory-related bugs may also be
+                        detected.
+
+
+                    </p><p>A sample output with memory leak detected:</p>
+
+                    <figure class="figure mx-auto d-block">
+                        <img src="./COMP2011 PA3_files/pa3_sample_with_leak.png" class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:1000px;">
+                    </figure>
+
+                    <br>
+                    <br>
+                    If you wish to check for memory leaks yourself, you may follow our <a href="https://course.cse.ust.hk/comp2011/shared/comp2011_past_labs_pas/web/past-pas/2023F-assigns/pa3/pa3_website/leak_test.html">Memory
+                        Leak Checking</a> guide.<p></p>
+
+
+
+                    <h4><span class="badge badge-danger">Checking uninitialized variables</span></h4>
+
+                    <p>
+                        Many students forget to initialize the variables before using them. Sometimes, it will cause
+                        serious problems.
+                    </p>
+
+                    <p>
+                        The following method can ask the compiler to check uninitialized variables. For example, the
+                        following code is stored in a file named uninitialized_variables.cpp, you can add a flag
+                        <code class="  language-none">-Wuninitialized</code> to check:
+                    </p>
+
+                    <pre class="  language-none"><code class="  language-none">g++ uninitialized_variables.cpp -Wuninitialized</code></pre>
+
+                    <p>The above technique may be useful for your labs and projects. Here is a demo in vscode:</p>
+
+                    <p>
+                    </p><figure class="figure mx-auto d-block">
+                        <img src="./COMP2011 PA3_files/demo_check_variables.png" class="figure-img mx-auto d-block" alt="Responsive image" style="max-width:800px;">
+                    </figure>
+                    <p></p>
+
+
+
+                    <!-- 
+                        // Local testing instructions:
+                        // Instructors prefer to use local testing instructions 
+                    -->
+
+                    <h4><span class="badge badge-danger">Compilation and Running Test Cases</span></h4>
+                    <p><strong style="color:red;">Please use the following methods to accurately check your program
+                            output against the sample output.
+                            It avoids simple mistakes (e.g., typo mistakes) that cause marks deduction in ZINC.
+                        </strong></p>
+
+                    <ul>
+                        <li><strong>DO NOT</strong> use <strong>cerr</strong> because ZINC cannot grade cerr output. You
+                            can check this problem by following the checking procedures below.
+
+                        </li><li><strong>DO NOT</strong> return a non-zero return code (e.g., return -1;) in the main
+                            function. ZINC will treat your program as "crash" and won't continue the grading.
+
+                    </li></ul>
+
+                    <p>Please compare your outputs with the desired outputs:
+                    </p><ul>
+
+
+                        <li>In VSCode, please open the terminal by one of the following two ways:
+                            <ul>
+                                <li>Press the key Ctrl+Shift+` in Windows/Linux, or Control+Shift+Backquote in Mac</li>
+                                <li>From the menubar, select Terminal &gt; New Terminal</li>
+                            </ul>
+                            And then run this code to compile your code:
+                            <pre class="shadow p-3 mb-1 bg-white rounded"><span id="command_compile_origin_source">g++ -std=c++11 -o pa3 ./pa3.cpp</span></pre>
+                            or with memory leak check:
+                            <pre class="shadow p-3 mb-1 bg-white rounded"><span id="command_compile_source">g++ -std=c++11 -fsanitize=address,leak,undefined  -o pa3 ./pa3.cpp</span></pre>
+                        </li>
+                        <li>You need to redirect the input of executable
+                            program to the txt test case files we provided, and redirect the output to different txt
+                            files. Here are the commands:
+
+                            <ul>
+                                <li>In MacOS or Linux:
+                                    <pre class="shadow p-3 mb-1 bg-white rounded"><span id="command_run_mac_linux">./pa3 &lt; testcase/input1.txt &gt; myOutput1.txt</span></pre>
+                                </li>
+                                <li>In Windows:
+                                    <pre class="shadow p-3 mb-1 bg-white rounded"><span id="command_run_win">Get-Content testcase/input1.txt | ./pa3 &gt; myOutput1.txt</span></pre>
+                                </li>
+                            </ul>
+
+                            <p>Please replace the filenames accordingly if you would like to check other output files.
+                            </p>
+                        </li>
+                        <li>After that, you can compare your own output text files with the desired outputs one by one.
+                            You can
+                            compare any two files by VSCode:
+                            <ul>
+                                <li>Right click the first file you want to compare in VSCode Explorer, choose
+                                    <strong>Select for
+                                        Compare</strong><img class="mx-auto d-block" alt="Responsive image" style="max-height:350px;" src="./COMP2011 PA3_files/compare1.png">
+                                </li>
+                                <li>Right click the second file you want to compare in VSCode Explorer, choose
+                                    <strong>Compare with
+                                        Selected</strong><img class="mx-auto d-block" src="./COMP2011 PA3_files/compare2.png" alt="Responsive image" style="max-height:350px;">
+                                </li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                    <p></p>
+                   
+                    <h2 class="mume-header" id="section-skeleton-code">Skeleton Code</h2>
+                    <p>
+
+                        A skeleton code: <strong>
+                            <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/pa3_skeleton/pa3.cpp">pa3.cpp</a>
+                        </strong> is provided</p>
+
+                    <ul>
+                        <li><strong>DO NOT</strong> start from scratch.</li>
+                        <li>You can search the keyword <strong>TODO</strong> in the skeleton code to locate the parts
+                            you need to implement
+                        </li>
+                        <li><strong>READ</strong> the skeleton code carefully. Many useful things are provided in the
+                            skeleton code
+                        </li>
+                        <li><strong>DO NOT</strong> include extra header files</li>
+                        <li><strong>DO NOT</strong> use global variables</li>
+                        <li><strong>DO NOT</strong> add extra <code language="language-cpp" class="  language-none">cin</code> or <code language="language-cpp" class="  language-none">cout</code> statements
+
+                            <ul>
+                                <li>It is because the input and output handling are given in the skeleton code</li>
+                                <li>ZINC is strict when comparing the output text. ZINC can only skip extra empty lines.
+                                    Extra output statements (e.g., an extra word, an extra sentence, or an extra empty
+                                    space in the middle) may fail the ZINC test cases
+                                </li>
+                                <li><strong style="color:red;">If you add extra output statements for debugging
+                                        purposes, please remember to delete them before your final code
+                                        submission</strong></li>
+                            </ul>
+
+
+                        </li>
+                        <li>If needed, you can add extra constants, local variables, and extra helper functions</li>
+                    </ul>
+                    <h2 class="mume-header" id="section-academic-integrity">Academic Integrity</h2>
+                    <h4><span class="badge badge-danger">Important - Academic Integrity at HKUST</span></h4>
+                    <p>We highly value academic integrity. Please read the
+                        <a href="https://course.cse.ust.hk/comp2011/web/code.html">Honor Code</a> section on our
+                        course
+                        webpage to
+                        make sure you understand what is considered as plagiarism and what the penalties are.
+                        The
+                        followings are some of the highlights:
+                    </p>
+                    <ul>
+                        <li><strong>DO NOT try your "LUCK"</strong> - we use sophisticated plagiarism detection
+                            software
+                            to find cheaters. We also review codes for potential cases manually.
+                        </li>
+                        <li>The penalty (for BOTH the copier and the copiee) is not just getting a zero in your
+                            assignment. Please read the Honor Code thoroughly.
+                        </li>
+                        <li>Serious offenders will fail the course immediately, and there may be additional
+                            disciplinary
+                            actions from the department and university, up to and including expulsion.
+                        </li>
+                    </ul>
+                    <p>This programming assignment is challenging, so you are highly recommended to start early.
+                        If you
+                        need clarification on the requirements, please feel free to post on Piazza.
+                        However, to avoid cluttering the forum with repeated/trivial questions, please carefully
+                        read
+                        the given code, the description, the sample output, and the latest <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/index.html#section-faqs" "="">FAQ</a>
+                    (refresh
+                    this page regularly) in this page before
+                    you post your questions. In addition, please be reminded that we won't help debug for any student's
+                    assignment for the sake of fairness.</p>
+                    <h2 class=" mume-header" id="section-grading-scheme">Grading Scheme</h2>
+
+
+                            <h4><span class="badge badge-info">Before the deadline</span></h4>
+                            <p>For each test case, you should compare your program output with the sample output.
+
+                                During the debugging, you can type the input manually instead of redirecting the input
+                                file. It may help you identify the bugs in your program. </p>
+
+                            <p>The following test cases are released:</p>
+
+                            <table class="table table-striped">
+                                <tbody><tr>
+                                    <th style="width:15%;">Sample Input</th>
+                                    <th style="width:15%;">Sample Output</th>
+                                    <th style="width:70%;">Description</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input1-1.txt">
+                                            input1-1.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output1-1.txt">
+                                            output1-1.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 1 &amp; 2
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input1-2.txt">
+                                            input1-2.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output1-2.txt">
+                                            output1-2.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Task for Task 1 &amp; 2
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input1-3.txt">
+                                            input1-3.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output1-3.txt">
+                                            output1-3.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Task for Task 1 &amp; 2
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input3-1.txt">
+                                            input3-1.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output3-1.txt">
+                                            output3-1.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Task for Task 3 &amp; 4
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input3-2.txt">
+                                            input3-2.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output3-2.txt">
+                                            output3-2.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 3 &amp; 4
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input3-3.txt">
+                                            input3-3.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output3-3.txt">
+                                            output3-3.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 3 &amp; 4
+                                    </td>
+                                </tr>
+                    
+
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input5-1.txt">
+                                            input5-1.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output5-1.txt">
+                                            output5-1.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 5
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input5-2.txt">
+                                            input5-2.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output5-2.txt">
+                                            output5-2.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 5
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input5-3.txt">
+                                            input5-3.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output5-3.txt">
+                                            output5-3.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 5
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input6-1.txt">
+                                            input6-1.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output6-1.txt">
+                                            output6-1.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 6
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input6-2.txt">
+                                            input6-2.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output6-2.txt">
+                                            output6-2.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 6
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input6-3.txt">
+                                            input6-3.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output6-3.txt">
+                                            output6-3.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 6
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input7-1.txt">
+                                            input7-1.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output7-1.txt">
+                                            output7-1.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 7
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input7-2.txt">
+                                            input7-2.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output7-2.txt">
+                                            output7-2.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 7
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input7-3.txt">
+                                            input7-3.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output7-3.txt">
+                                            output7-3.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 7
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input8-1.txt">
+                                            input8-1.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output8-1.txt">
+                                            output8-1.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 8
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input8-2.txt">
+                                            input8-2.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output8-2.txt">
+                                            output8-2.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 8
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input8-3.txt">
+                                            input8-3.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output8-3.txt">
+                                            output8-3.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 8
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input9-1.txt">
+                                            input9-1.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output9-1.txt">
+                                            output9-1.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 9
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input9-2.txt">
+                                            input9-2.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output9-2.txt">
+                                            output9-2.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 9
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input9-3.txt">
+                                            input9-3.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output9-3.txt">
+                                            output9-3.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 9
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input10-1.txt">
+                                            input10-1.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output10-1.txt">
+                                            output10-1.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 10
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/input10-2.txt">
+                                            input10-2.txt
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="https://course.cse.ust.hk/comp2011/assigns/pa3/PublicTestCase/output10-2.txt">
+                                            output10-2.txt
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        Test for Task 10
+                                    </td>
+                                </tr>
+
+
+                            </tbody></table>
+
+                            <h4><span class="badge badge-info">After the deadline</span></h4>
+
+                            <h4><span class="badge badge-info">Notes for test cases + Edge Cases</span></h4>
+                            <ul>
+                              
+
+
+                            </ul>
+
+                            <p id="test-case-weight">In addition to the given test cases, we have hidden test cases. They are summarized in
+                                the following table:</p>
+
+                            <p><em>(*): In this project assignment, we may not able to completely isolate one feature
+                                    from another feature. So, we only list out the main area in the following table.
+
+                                </em>
+                            </p>
+
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Case</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>testcase 1-4</td>
+                                            <td>Task 1 &amp; 2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>testcase 1-5</td>
+                                            <td>Task 1 &amp; 2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>testcase 3-4</td>
+                                            <td>Task 3 &amp; 4</td>
+                                        </tr>
+                                        <tr>
+                                            <td>testcase 3-5</td>
+                                            <td>Task 3 &amp; 4</td>
+                                        </tr>
+                                        <tr>
+                                            <td>testcase 5-4</td>
+                                            <td>Task 5</td>
+                                        </tr>
+                                        <tr>
+                                            <td>testcase 5-5</td>
+                                            <td>Task 5</td>
+                                        </tr>
+                                        <tr>
+                                            <td>testcase 6-4</td>
+                                            <td>Task 6</td>
+                                        </tr>
+                                        <tr>
+                                            <td>testcase 6-5</td>
+                                            <td>Task 6</td>
+                                        </tr>
+                                        <tr>
+                                            <td>testcase 7-4</td>
+                                            <td>Task 7</td>
+                                        </tr>
+                                        <tr>
+                                            <td>testcase 7-5</td>
+                                            <td>Task 7</td>
+                                        </tr>
+                                        <tr>
+                                            <td>testcase 8-4</td>
+                                            <td>Task 8</td>
+                                        </tr>
+                                        <tr>
+                                            <td>testcase 8-5</td>
+                                            <td>Task 8</td>
+                                        </tr>
+                                        <tr>
+                                            <td>testcase 9-4</td>
+                                            <td>Task 9</td>
+                                        </tr>
+                                        <tr>
+                                            <td>testcase 9-5</td>
+                                            <td>Task 9</td>
+                                        </tr>
+                                        <tr>
+                                            <td>testcase 10-3</td>
+                                            <td>Task 10</td>
+                                        </tr>
+                                        <tr>
+                                            <td>testcase 10-4</td>
+                                            <td>Task 10</td>
+                                        </tr>
+
+
+                                        <!-- <tr>
+                                            <td><strong>Total</strong>
+                                                dsfsfs
+                                            </td>                                            
+                                        </tr> -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+
+                            <h2 class=" mume-header" id="section-submission">Submission</h2>
+
+                            <h4>Deadline: <span class="badge badge-danger" id="submission_deadline">29-Nov-2024 23:59</span></h4>
+
+
+                            <p>
+                                You are required to submit your solution to our auto-grading
+                                system: <a href="http://zinc.cse.ust.hk/">ZINC</a>. <br>
+                                Please read the
+                                <a href="https://zinc.cse.ust.hk/guide">ZINC student submission guidelines </a>
+                                if you still don't know how to submit in ZINC.
+                            </p>
+
+                            <p>
+                                The filename is <strong class="lab_submission_filename">pa3.cpp</strong>, and submit it
+                                to
+                                ZINC. <strong>50%</strong> penalty will be given if your filename is wrong.
+                                You don't need to zip the file if you only submit one file to ZINC.
+                            </p>
+
+                            <p>
+                                Filename checking is enabled in ZINC.
+
+                            </p>
+
+                            <p>
+                                Other names do not work <em>
+                                    <span id="wrong_filenames">(e.g., PA3.cpp, Pa3.cpp, pa3.cpp.cpp, pa 3.cpp (a space is added between pa and 3) etc. )</span>
+                                </em>
+                            </p>
+                            <p>
+                                Notes:
+                                </p><ul>
+                                    <li>You may submit your file multiple times, but <strong>only the last
+                                            submission
+                                            will be graded</strong>. You do NOT get to choose which version we
+                                        grade. If
+                                        you submit after the deadline, late penalty will be applied according to
+                                        the
+                                        submission time of your last submission.</li>
+
+                                    <li>Submit early to avoid any last-minute problem. Only ZINC submissions
+                                        will be
+                                        accepted.</li>
+
+                                    <li>The ZINC server will be very busy on the last day especially in the last
+                                        few
+                                        hours. However, as long as your submission is successful, we would grade
+                                        your
+                                        latest submission with all test cases after the deadline.</li>
+
+                                    <li>
+                                        Make sure you submit the correct file yourself. You can download your
+                                        own file
+                                        back from ZINC to verify. Again, we only grade what you uploaded last to
+                                        ZINC.
+                                    </li>
+
+                                </ul>
+                            <p></p>
+
+                            <h4>Compilation Requirements</h4>
+
+                            <p><strong style="color:red;">Make sure your program can be compiled and be able to
+                                    execute.</strong></p>
+                            <p>
+                                If we cannot even compile your work, it won't be graded. Therefore, for parts
+                                that you
+                                cannot finish, just put in dummy/empty implementation so that your whole program
+                                can be
+                                compiled for ZINC to grade the other parts that you have done.
+                            </p>
+
+
+                            <h4>Late Submission Policy</h4>
+                            <p>
+                                There will be a penalty of -1 point (out of a maximum 100 points) for every
+                                minute you
+                                are late.
+                                <br>In other words, if you are late for more than 100 minutes, you will get 0
+                                marks.
+                            </p>
+
+
+                            <h2 class="mume-header" id="section-faqs">FAQs</h2>
+
+                            <p>This section will be updated after the release</p>
+
+                            <div class="card p-3 mb-2">
+                                <h5 class="card-title"> My code doesn't work / there is an error, here is the
+                                    code, can
+                                    you help me fix it?</h5>
+                                <p class="card-text">
+                                    As the assignment is a major course assessment, to be fair, we should not
+                                    finish the
+                                    tasks for you.
+                                    <br>We might provide you some hints, but we won't debug for you.
+                                </p>
+                            </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+    <!-- /#wrapper -->
+    <!-- Bootstrap core JavaScript -->
+    <script src="./COMP2011 PA3_files/jquery.min.js"></script>
+    <script src="./COMP2011 PA3_files/bootstrap.bundle.min.js"></script>
+
+    <!-- prims.js -->
+    <script src="./COMP2011 PA3_files/prism.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+
+
+
+
+</body></html>
